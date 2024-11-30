@@ -11,8 +11,7 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <div className="relative flex h-screen items-center justify-center">
-      <div
-        className="container flex h-fit max-w-[350px] -translate-y-20 flex-col items-center justify-center space-y-6 px-0">
+      <div className="container flex h-fit max-w-[350px] -translate-y-20 flex-col items-center justify-center space-y-6 px-0">
         <Image src={Logo} width={196} height={80} alt="logo" />
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-2xl font-semibold">Đăng nhập</h2>
