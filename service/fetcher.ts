@@ -1,9 +1,13 @@
-export async function fetchClient<T>(url: string, options: RequestInit = {}) {
-  const defaultHeaders = {
+export async function fetcher(
+  token: string,
+  options: RequestInit,
+  url: string
+): Promise<void> {
+  const defaultHeaders: HeadersInit = {
     'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers
   };
-
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
       ...options,
@@ -14,9 +18,7 @@ export async function fetchClient<T>(url: string, options: RequestInit = {}) {
       const errorData = await response.json();
       throw new Error(errorData?.message || 'Something went wrong');
     }
-
-    const responseData: { data: T } = await response.json();
-    return responseData.data;
+    return await response.json();
   } catch (error: any) {
     throw new Error(error.message || 'Network Error');
   }

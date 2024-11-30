@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { fetchClient } from '@/service/api-service';
+import { fetchClient } from '@/service/fetch-client';
 import { useRouter } from 'next/navigation';
 import { InputPassword } from '@/components/ui/input-password';
 

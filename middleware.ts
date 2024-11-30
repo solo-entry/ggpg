@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest) {
     const loginUrl = new URL('/', req.url);
     return NextResponse.redirect(loginUrl);
   }
+  console.log(pathname);
 
   // Cho phép tiếp tục nếu có token
   return NextResponse.next();
