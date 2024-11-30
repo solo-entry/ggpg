@@ -1,4 +1,4 @@
-import Providers from '@/components/layout/providers';
+import Providers from '@/components/providers/providers';
 import { Toaster } from '@/components/ui/toaster';
 import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${inter.className} overflow-hidden `}
         suppressHydrationWarning={true}

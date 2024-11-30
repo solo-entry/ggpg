@@ -1,4 +1,5 @@
 'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,25 +12,39 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useRouter } from 'next/navigation';
+import { useUserInfo } from '@/hooks/useLocalStorage';
 
 export function UserNav() {
-  const session = {
-    user: {
-      image: '',
-      name: 'Test'
+  const router = useRouter();
+  const userInfo = useUserInfo();
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/log-out', {
+        method: 'GET'
+      });
+
+      if (response.ok) {
+        router.push('/');
+      } else {
+        console.error('Failed to log out');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
     }
   };
-  if (session) {
+
+  if (userInfo) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
               <AvatarImage
-                src={session?.user?.image ?? ''}
-                alt={session?.user?.name ?? ''}
+                src={userInfo?.avatar ?? ''}
+                alt={userInfo?.fullName ?? ''}
               />
-              <AvatarFallback>{session?.user?.name?.[0]}</AvatarFallback>
+              <AvatarFallback>{userInfo?.fullName[0]}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -37,10 +52,10 @@ export function UserNav() {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
-                {session?.user?.name}
+                {userInfo?.fullName}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
-                {/*{session?.user?.email}*/} test@gmail.com
+                {userInfo?.email}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -56,7 +71,7 @@ export function UserNav() {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -64,4 +79,6 @@ export function UserNav() {
       </DropdownMenu>
     );
   }
+
+  return null;
 }
