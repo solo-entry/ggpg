@@ -25,14 +25,18 @@ const ProjectColumns: ColumnDef<Project>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Title" />
     ),
-    cell: ({ row }) => <div>{row.getValue('title')}</div>
+    cell: ({ row }) => (
+      <div className={'line-clamp-1'}>{row.getValue('title')}</div>
+    )
   },
   {
     accessorKey: 'description',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Description" />
     ),
-    cell: ({ row }) => <div>{row.getValue('description') ?? '-'}</div>
+    cell: ({ row }) => (
+      <div className={'line-clamp-1'}>{row.getValue('description') ?? '-'}</div>
+    )
   },
   {
     accessorKey: 'tags',
@@ -48,7 +52,7 @@ const ProjectColumns: ColumnDef<Project>[] = [
   {
     accessorKey: 'isFeatured',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Is Feature" />
+      <DataTableColumnHeader column={column} title="Featured" />
     ),
     cell: ({ row }) => {
       return (
@@ -77,6 +81,9 @@ const ProjectColumns: ColumnDef<Project>[] = [
                   description: '',
                   variant: 'success'
                 });
+                setTimeout(() => {
+                  location.reload();
+                }, 100);
               })();
             }}
             aria-label="Select all"
