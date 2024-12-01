@@ -10,6 +10,7 @@ export interface ISignIn {
 }
 
 export interface User {
+  _id: string;
   avatar: string;
   fullName: string;
   email: string;

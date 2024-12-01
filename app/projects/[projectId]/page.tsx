@@ -1,5 +1,4 @@
 import LandingLayout from '@/components/layout/LandingLayout';
-import nookies from 'nookies';
 import { fetcher } from '@/service/fetcher';
 import NotFound from '@/app/not-found';
 import dayjs from 'dayjs';
@@ -7,19 +6,21 @@ import Link from 'next/link';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import gravatar from 'gravatar';
 import CommentSection from '@/app/projects/[projectId]/CommentSection';
+import { cookies } from 'next/headers';
+import LikeButton from '@/app/projects/[projectId]/like-button';
 
 export default async function ProjectPage({ params }: any) {
-  const cookies = nookies.get();
-  const token = cookies.token || '';
+  const token = cookies().get('token')?.value || '';
   let project: Project;
   try {
-    project = (await fetcher(
-      token,
-      { method: 'GET' },
-      `projects/${params.projectId}`
-    )) as unknown as Project;
+    const [projectData] = await Promise.all([
+      fetcher(token, { method: 'GET' }, `projects/${params.projectId}`)
+    ]);
+
+    project = projectData as unknown as Project;
   } catch (e) {
-    return NotFound();
+    console.log(e);
+    return <NotFound />;
   }
 
   return (
@@ -64,13 +65,7 @@ export default async function ProjectPage({ params }: any) {
 
         <div className={'flex flex-col justify-between bg-neutral-100 p-8'}>
           <div className={'mx-auto mb-4'}>
-            <div
-              className={
-                'flex h-12 w-12 items-center justify-center rounded-full bg-black text-white'
-              }
-            >
-              <ThumbsUpIcon />
-            </div>
+            {project && <LikeButton project={project} />}
           </div>
           <div className={'text-center text-xl font-bold'}>
             {project.tags.filter((_, i) => i < 3).join(', ')}

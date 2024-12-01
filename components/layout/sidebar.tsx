@@ -29,7 +29,7 @@ export default function Sidebar({ className }: SidebarProps) {
       )}
     >
       <div className={cn('hidden lg:block', !isMinimized ? ' px-5' : 'px-2')}>
-        <Link href={'#'} target="_blank" className="flex justify-center pt-3">
+        <Link href={'/dashboard'} className="flex justify-center pt-3">
           {!isMinimized ? (
             <Image src={Logo} width={100} alt="logo" />
           ) : (

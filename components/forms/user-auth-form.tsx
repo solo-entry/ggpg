@@ -77,9 +77,8 @@ export default function UserAuthForm() {
       localStorage.setItem(
         'user',
         JSON.stringify({
-          email: data.email,
-          fullName: data.fullName,
-          role: data.role
+          ...data,
+          token: null
         })
       );
       localStorage.setItem('token', data.token);

@@ -46,4 +46,5 @@ interface Project {
   visibility: string;
   viewCount: number;
   createdAt: string;
+  liked?: boolean;
 }

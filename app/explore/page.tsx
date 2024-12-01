@@ -3,6 +3,7 @@ import { MessageSquareIcon, SearchIcon, ThumbsUpIcon } from 'lucide-react';
 import { fetcher } from '@/service/fetcher';
 import nookies from 'nookies';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 
 function ProjectItem({ project }: { project: Project }) {
   return (
@@ -54,8 +55,7 @@ function ProjectItem({ project }: { project: Project }) {
 
 export default async function Explore({ searchParams }: any) {
   const search = searchParams?.search || '';
-  const cookies = nookies.get();
-  const token = cookies.token || '';
+  const token = cookies().get('token')?.value || '';
   const data = (await fetcher(
     token,
     { method: 'GET' },
@@ -107,7 +107,7 @@ export default async function Explore({ searchParams }: any) {
           }
         >
           {data.map((project: Project) => {
-            return <ProjectItem project={project} />;
+            return <ProjectItem key={project._id} project={project} />;
           })}
         </div>
       </div>
