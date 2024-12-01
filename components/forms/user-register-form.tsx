@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { fetchClient } from '@/service/fetch-client';
 import { useRouter } from 'next/navigation';
 import { InputPassword } from '@/components/ui/input-password';
+import { FetchClient } from '@/service/fetch-client';
 
 export default function UserRegisterForm() {
   const [formData, setFormData] = useState({
@@ -25,6 +25,7 @@ export default function UserRegisterForm() {
       [name]: value
     });
   };
+
   const router = useRouter();
 
   const validateForm = () => {
@@ -32,8 +33,8 @@ export default function UserRegisterForm() {
 
     if (!fullName) {
       toast({
-        title: 'Lỗi',
-        description: 'Cần nhập họ và tên.',
+        title: 'Error',
+        description: 'Full name is required.',
         variant: 'destructive'
       });
       return false;
@@ -41,8 +42,8 @@ export default function UserRegisterForm() {
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       toast({
-        title: 'Lỗi',
-        description: 'Email không hợp lệ.',
+        title: 'Error',
+        description: 'Invalid email address.',
         variant: 'destructive'
       });
       return false;
@@ -50,8 +51,8 @@ export default function UserRegisterForm() {
 
     if (!password || password.length < 6) {
       toast({
-        title: 'Lỗi',
-        description: 'Mật khẩu cần ít nhất 6 kí tự.',
+        title: 'Error',
+        description: 'Password must be at least 6 characters long.',
         variant: 'destructive'
       });
       return false;
@@ -67,20 +68,20 @@ export default function UserRegisterForm() {
 
     setLoading(true);
     try {
-      await fetchClient('auth/register', {
+      await FetchClient('auth/register', {
         method: 'POST',
         body: JSON.stringify(formData)
       });
 
       toast({
-        title: 'Đăng ký thành công!',
-        description: 'Bạn có thể đăng nhập ngay bây giờ.',
+        title: 'Registration successful!',
+        description: 'You can now sign in.',
         variant: 'success'
       });
       router.push('/auth/sign-in');
     } catch (error: any) {
       toast({
-        title: 'Đăng ký thất bại',
+        title: 'Registration failed',
         description: error.message,
         variant: 'destructive'
       });
@@ -91,20 +92,22 @@ export default function UserRegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full space-y-2">
+      {/* Full Name Field */}
       <div>
         <label htmlFor="fullName" className="sr-only">
-          Họ và tên
+          Full Name
         </label>
         <Input
           id="fullName"
           name="fullName"
-          placeholder="Họ và tên"
+          placeholder="Full Name"
           value={formData.fullName}
           onChange={handleChange}
           disabled={loading}
         />
       </div>
 
+      {/* Email Field */}
       <div>
         <label htmlFor="email" className="sr-only">
           Email
@@ -123,27 +126,26 @@ export default function UserRegisterForm() {
       {/* Password Field */}
       <div>
         <label htmlFor="password" className="sr-only">
-          Mật khẩu
+          Password
         </label>
         <InputPassword
           id="password"
           name="password"
-          placeholder="Mật khẩu"
+          placeholder="Password"
           value={formData.password}
           onChange={handleChange}
           disabled={loading}
         />
       </div>
 
-      {/* Footer */}
       <div className="flex flex-row justify-end">
         <Link href="/auth/sign-in" className="text-sm italic underline">
-          Bạn đã có tài khoản?
+          Already have an account?
         </Link>
       </div>
 
       <Button disabled={loading} className="ml-auto w-full" type="submit">
-        Đăng ký
+        Register
       </Button>
     </form>
   );

@@ -1,24 +1,5 @@
 import { NavItem } from '@/types';
 
-export type User = {
-  id: number;
-  name: string;
-  company: string;
-  role: string;
-  verified: boolean;
-  status: string;
-};
-
-export interface Agency {
-  ID: string;
-  tenDangKy: string;
-  chuCoSo: string;
-  soDienThoai: string;
-  diaChi: string;
-  mst: string;
-  trangThai: string;
-}
-
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',
@@ -26,7 +7,6 @@ export const navItems: NavItem[] = [
     icon: 'dashboard',
     label: 'Dashboard'
   },
-
   {
     title: 'Projects',
     href: '/dashboard/projects',
@@ -44,6 +24,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard/comments',
     icon: 'comment',
     label: 'Comment'
+  },
+  {
+    title: 'Categories',
+    href: '/dashboard/categories',
+    icon: 'category',
+    label: 'Categories'
   },
   {
     title: 'Settings',

@@ -12,19 +12,19 @@ import {
   VisibilityState
 } from '@tanstack/react-table';
 import DataTableBody from '@/components/tables/data-table-body';
-import { ProjectToolbar } from '@/components/tables/project-tables/project-toolbar';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { CommentToolbar } from '@/components/tables/comment-tables/comment-toolbar';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-interface DataTableProps<Project> {
-  columns: ColumnDef<Project>[];
-  data: Project[];
+interface DataTableProps<Comment> {
+  columns: ColumnDef<Comment>[];
+  data: Comment[];
 }
 
-export function ProjectTable<Project>({
+export function CommentTable<Comment>({
   columns,
   data
-}: DataTableProps<Project>) {
+}: DataTableProps<Comment>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [rowSelection, setRowSelection] = useState({});
@@ -58,7 +58,6 @@ export function ProjectTable<Project>({
       rowSelection
     }
   });
-
   useEffect(() => {
     const currentParams = new URLSearchParams(searchParams?.toString());
     if (debouncedValue) {
@@ -70,9 +69,9 @@ export function ProjectTable<Project>({
   }, [debouncedValue, router, searchParams]);
   return (
     <div className="space-y-4 pb-6">
-      <ProjectToolbar table={table} value={value} setValue={setValue} />
+      <CommentToolbar value={value} setValue={setValue} table={table} />
       <DataTableBody
-        route={'/dashboard/projects/'}
+        route={'/dashboard/comments/'}
         table={table}
         columns={columns}
       />

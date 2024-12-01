@@ -3,11 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/tables/data-table-column-header';
 import dayjs from 'dayjs';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ProjectCellAction } from '@/components/tables/project-tables/cell-actions';
 import { abbreviateString } from '@/lib/utils';
-import TagList from '@/components/tags-list';
+import { CommentCellAction } from '@/components/tables/comment-tables/cell-actions';
 
-const ProjectColumns: ColumnDef<Project>[] = [
+const CategoryColumns: ColumnDef<Comment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -41,11 +40,11 @@ const ProjectColumns: ColumnDef<Project>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => <div>{row.getValue('title')}</div>
+    cell: ({ row }) => <div>{row.getValue('name')}</div>
   },
   {
     accessorKey: 'description',
@@ -53,17 +52,6 @@ const ProjectColumns: ColumnDef<Project>[] = [
       <DataTableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => <div>{row.getValue('description') ?? '-'}</div>
-  },
-  {
-    accessorKey: 'tags',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category & tags" />
-    ),
-    cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-2">
-        <TagList tags={row.original.tags} /> {row.original.category.name}
-      </div>
-    )
   },
   {
     accessorKey: 'createdAt',
@@ -75,16 +63,9 @@ const ProjectColumns: ColumnDef<Project>[] = [
     )
   },
   {
-    accessorKey: 'visibility',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Visibility" />
-    ),
-    cell: ({ row }) => <div>{row.getValue('visibility')}</div>
-  },
-  {
     id: 'actions',
-    cell: ({ row }) => <ProjectCellAction data={row} />
+    cell: ({ row }) => <CommentCellAction data={row} />
   }
 ];
 
-export default ProjectColumns;
+export default CategoryColumns;

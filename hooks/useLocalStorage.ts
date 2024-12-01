@@ -20,12 +20,7 @@ export function useUserInfo(): User {
 }
 
 export function useToken() {
-  const [token, setToken] = useState<string | null>(null);
+  const storedToken = localStorage.getItem('token');
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-  }, []);
-
-  return token;
+  return storedToken || '';
 }

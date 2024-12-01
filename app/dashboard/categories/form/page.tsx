@@ -1,13 +1,14 @@
-import { Breadcrumbs } from '@/components/breadcrumbs';
+import React, { Suspense } from 'react';
 import PageContainer from '@/components/layout/page-container';
+import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import dayjs from 'dayjs';
-import UpdateUserInfoForm from '@/components/forms/settings-form';
+import CategoryForm from '@/components/forms/category-form';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Settings', link: '/dashboard/settings' }
+  { title: 'Categories', link: '/dashboard/categories' },
+  { title: 'Form', link: '#' }
 ];
 
 export default async function page() {
@@ -17,12 +18,14 @@ export default async function page() {
         <Breadcrumbs items={breadcrumbItems} />
         <div className="flex items-start justify-between">
           <Heading
-            title={`Settings profile`}
-            description={'Data updated at ' + dayjs().format('DD/MM/YYYY')}
+            title={'Category Form'}
+            description={'You can view, edit, create category here'}
           />
         </div>
         <Separator />
-        <UpdateUserInfoForm />
+        <Suspense fallback={null}>
+          <CategoryForm />
+        </Suspense>
       </div>
     </PageContainer>
   );

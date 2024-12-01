@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ['utfs.io']
   },
+  reactStrictMode: false,
   experimental: {
     missingSuspenseWithCSRBailout: false
   }

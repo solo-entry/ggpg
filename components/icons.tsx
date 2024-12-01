@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowRight,
+  BookMarked,
   Check,
   Command,
   CreditCard,
@@ -49,5 +50,6 @@ export const Icons = {
   laptop: Laptop,
   target: Target,
   comment: ChatBubbleIcon,
-  check: Check
+  check: Check,
+  category: BookMarked
 };

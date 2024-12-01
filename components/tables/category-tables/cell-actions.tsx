@@ -11,31 +11,34 @@ import {
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Row } from '@tanstack/table-core';
+import { Category } from '@/types/category';
 import { FetchClient } from '@/service/fetch-client';
 import { toast } from '@/components/ui/use-toast';
+import { Row } from '@tanstack/table-core';
 
 interface CellActionProps {
-  data: Row<Project>;
+  data: Row<Category>;
 }
 
-export const ProjectCellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CategoryCellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
   const onConfirm = async () => {
-    await FetchClient(`projects/${data.original._id}`, {
+    setLoading(true);
+    await FetchClient(`admin/categories/${data.original._id}`, {
       method: 'DELETE'
     });
     toast({
-      title: 'Delete successfully',
+      title: 'Delete successfully!',
       description: '',
       variant: 'success'
     });
+    setLoading(false);
     router.refresh();
     setOpen(false);
   };
+
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <AlertModal
@@ -55,12 +58,16 @@ export const ProjectCellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/dashboard/projects/form?id=${data.original._id}`)
+              router.push(`/dashboard/categories/form?id=${data.original._id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>

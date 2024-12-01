@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import { buttonVariants } from '@/components/ui/button';
@@ -6,15 +7,15 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { ProjectTable } from '@/components/tables/project-tables/project-table';
-import ProjectColumns from '@/components/tables/project-tables/project-column';
 import dayjs from 'dayjs';
 import { fetcher } from '@/service/fetcher';
-import nookies from 'nookies';
+import { Category } from '@/types/category';
+import { CategoryTable } from '@/components/tables/category-tables/category-table';
+import CategoryColumn from '@/components/tables/category-tables/category-column';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Projects', link: '/dashboard/projects' }
+  { title: 'Categories', link: '/dashboard/categories' }
 ];
 
 type paramsProps = {
@@ -24,32 +25,33 @@ type paramsProps = {
 };
 
 export default async function page({ searchParams }: paramsProps) {
-  const search = searchParams?.search || '';
-  const cookies = nookies.get();
-  const token = cookies.token || '';
+  const token = cookies().get('token')?.value || ''; // Use Next.js cookies API
   const data = (await fetcher(
     token,
     { method: 'GET' },
-    'projects' + `${search ? `?search=${search}` : ''}`
-  )) as unknown as Project[];
+    'admin/categories'
+  )) as unknown as Category[];
+
   return (
     <PageContainer>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
+
         <div className="flex items-start justify-between">
           <Heading
-            title={`Projects management (${data.length})`}
+            title={`Categories management (${data.length})`}
             description={'Data updated at ' + dayjs().format('DD/MM/YYYY')}
           />
+
           <Link
-            href={'/dashboard/projects/form'}
+            href={'/dashboard/categories/form'}
             className={cn(buttonVariants({ variant: 'default' }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
           </Link>
         </div>
         <Separator />
-        <ProjectTable data={data} columns={ProjectColumns} />
+        <CategoryTable data={data} columns={CategoryColumn} />
       </div>
     </PageContainer>
   );

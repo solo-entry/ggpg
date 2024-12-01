@@ -10,7 +10,7 @@ interface Profile {
 
 interface Author {
   _id: string;
-  username: string;
+  fullName: string;
   email: string;
   role: string;
   profile: Profile;

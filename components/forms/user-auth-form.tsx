@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { toast } from '@/components/ui/use-toast';
@@ -12,7 +12,7 @@ export default function UserAuthForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
@@ -21,32 +21,32 @@ export default function UserAuthForm() {
     const { email, password } = formValues;
     if (!email) {
       toast({
-        title: 'Lỗi',
-        description: 'Email không được để trống',
+        title: 'Error',
+        description: 'Email is required',
         variant: 'destructive'
       });
       return false;
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
       toast({
-        title: 'Lỗi',
-        description: 'Email không hợp lệ',
+        title: 'Error',
+        description: 'Invalid email format',
         variant: 'destructive'
       });
       return false;
     }
     if (!password) {
       toast({
-        title: 'Lỗi',
-        description: 'Mật khẩu không được để trống',
+        title: 'Error',
+        description: 'Password is required',
         variant: 'destructive'
       });
       return false;
     }
     if (password.length < 6) {
       toast({
-        title: 'Lỗi',
-        description: 'Mật khẩu cần ít nhất 6 ký tự',
+        title: 'Error',
+        description: 'Password must be at least 6 characters long',
         variant: 'destructive'
       });
       return false;
@@ -54,7 +54,7 @@ export default function UserAuthForm() {
     return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -68,7 +68,9 @@ export default function UserAuthForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Có lỗi xảy ra khi đăng nhập');
+        throw new Error(
+          errorData.message || 'An error occurred while logging in'
+        );
       }
 
       const { data } = await response.json();
@@ -82,12 +84,12 @@ export default function UserAuthForm() {
       );
       localStorage.setItem('token', data.token);
 
-      toast({ title: 'Thành công', description: 'Đăng nhập thành công!' });
+      toast({ title: 'Success', description: 'Login successful!' });
 
       router.push('/dashboard', { scroll: false });
     } catch (error: any) {
       toast({
-        title: 'Có lỗi xảy ra',
+        title: 'Error',
         description: error.message,
         variant: 'destructive'
       });
@@ -111,7 +113,7 @@ export default function UserAuthForm() {
       <div>
         <InputPassword
           name="password"
-          placeholder="Mật khẩu"
+          placeholder="Password"
           value={formValues.password}
           onChange={handleChange}
           disabled={loading}
@@ -119,11 +121,11 @@ export default function UserAuthForm() {
       </div>
       <div className="flex flex-row justify-end">
         <Link href="/auth/register" className="text-sm italic underline">
-          Bạn chưa có tài khoản?
+          Don't have an account?
         </Link>
       </div>
       <Button disabled={loading} className="ml-auto w-full" type="submit">
-        Đăng nhập
+        Login
       </Button>
     </form>
   );

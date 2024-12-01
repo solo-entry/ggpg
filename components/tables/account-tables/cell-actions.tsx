@@ -11,21 +11,36 @@ import {
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Agency } from '@/constants/data';
+import { Category } from '@/types/category';
+import { FetchClient } from '@/service/fetch-client';
+import { toast } from '@/components/ui/use-toast';
+import { Row } from '@tanstack/table-core';
 
 interface CellActionProps {
-  data: Agency;
+  data: Row<Author>;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const AccountCellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    setLoading(true);
+    await FetchClient(`admin/users/${data.original._id}`, {
+      method: 'DELETE'
+    });
+    toast({
+      title: 'Delete successfully!',
+      description: '',
+      variant: 'success'
+    });
+    setLoading(false);
+    router.refresh();
+    setOpen(false);
+  };
 
   return (
-    <>
+    <div onClick={(e) => e.stopPropagation()}>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -41,15 +56,22 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() =>
+              router.push(`/dashboard/categories/form?id=${data.original._id}`)
+            }
+          >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+    </div>
   );
 };

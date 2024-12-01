@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,21 +12,17 @@ import {
   VisibilityState
 } from '@tanstack/react-table';
 import DataTableBody from '@/components/tables/data-table-body';
-import { ProjectToolbar } from '@/components/tables/project-tables/project-toolbar';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useDebounce } from '@/hooks/use-debounce';
+import { CategoryToolbar } from '@/components/tables/category-tables/category-toolbar';
 
-interface DataTableProps<Project> {
-  columns: ColumnDef<Project>[];
-  data: Project[];
+interface DataTableProps<Category> {
+  columns: ColumnDef<Category>[];
+  data: Category[];
 }
 
-export function ProjectTable<Project>({
+export function CategoryTable<Category>({
   columns,
   data
-}: DataTableProps<Project>) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+}: DataTableProps<Category>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -34,8 +30,6 @@ export function ProjectTable<Project>({
     pageIndex: 0,
     pageSize: 10
   });
-  const [value, setValue] = useState('');
-  const debouncedValue = useDebounce(value, 300);
 
   const table = useReactTable({
     data,
@@ -58,21 +52,11 @@ export function ProjectTable<Project>({
       rowSelection
     }
   });
-
-  useEffect(() => {
-    const currentParams = new URLSearchParams(searchParams?.toString());
-    if (debouncedValue) {
-      currentParams.set('search', debouncedValue);
-    } else {
-      currentParams.delete('search');
-    }
-    router.replace(`?${currentParams.toString()}`);
-  }, [debouncedValue, router, searchParams]);
   return (
     <div className="space-y-4 pb-6">
-      <ProjectToolbar table={table} value={value} setValue={setValue} />
+      <CategoryToolbar table={table} />
       <DataTableBody
-        route={'/dashboard/projects/'}
+        route={'/dashboard/categories/'}
         table={table}
         columns={columns}
       />

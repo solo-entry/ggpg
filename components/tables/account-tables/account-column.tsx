@@ -3,11 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from '@/components/tables/data-table-column-header';
 import dayjs from 'dayjs';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ProjectCellAction } from '@/components/tables/project-tables/cell-actions';
 import { abbreviateString } from '@/lib/utils';
-import TagList from '@/components/tags-list';
+import { AccountCellAction } from '@/components/tables/account-tables/cell-actions';
 
-const ProjectColumns: ColumnDef<Project>[] = [
+const AccountColumns: ColumnDef<Author>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -41,29 +40,25 @@ const ProjectColumns: ColumnDef<Project>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'fullName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Full name" />
     ),
-    cell: ({ row }) => <div>{row.getValue('title')}</div>
+    cell: ({ row }) => <div>{row.getValue('fullName')}</div>
   },
   {
-    accessorKey: 'description',
+    accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Email" />
     ),
-    cell: ({ row }) => <div>{row.getValue('description') ?? '-'}</div>
+    cell: ({ row }) => <div>{row.getValue('email') ?? '-'}</div>
   },
   {
-    accessorKey: 'tags',
+    accessorKey: 'role',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category & tags" />
+      <DataTableColumnHeader column={column} title="Role" />
     ),
-    cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-2">
-        <TagList tags={row.original.tags} /> {row.original.category.name}
-      </div>
-    )
+    cell: ({ row }) => <div>{row.getValue('role') ?? '-'}</div>
   },
   {
     accessorKey: 'createdAt',
@@ -75,16 +70,9 @@ const ProjectColumns: ColumnDef<Project>[] = [
     )
   },
   {
-    accessorKey: 'visibility',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Visibility" />
-    ),
-    cell: ({ row }) => <div>{row.getValue('visibility')}</div>
-  },
-  {
     id: 'actions',
-    cell: ({ row }) => <ProjectCellAction data={row} />
+    cell: ({ row }) => <AccountCellAction data={row} />
   }
 ];
 
-export default ProjectColumns;
+export default AccountColumns;
