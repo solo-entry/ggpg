@@ -5,8 +5,8 @@ import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import dayjs from 'dayjs';
 import { fetcher } from '@/service/fetcher';
-import CategoryColumn from '@/components/tables/category-tables/category-column';
 import { CommentTable } from '@/components/tables/comment-tables/comment-table';
+import CommentColumns from '@/components/tables/comment-tables/comment-column';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -38,7 +38,7 @@ export default async function page({ searchParams }: paramsProps) {
           />
         </div>
         <Separator />
-        <CommentTable data={data} columns={CategoryColumn} />
+        <CommentTable data={data} columns={CommentColumns} />
       </div>
     </PageContainer>
   );

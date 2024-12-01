@@ -16,15 +16,12 @@ import { CommentToolbar } from '@/components/tables/comment-tables/comment-toolb
 import { useDebounce } from '@/hooks/use-debounce';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-interface DataTableProps<Comment> {
+interface DataTableProps {
   columns: ColumnDef<Comment>[];
   data: Comment[];
 }
 
-export function CommentTable<Comment>({
-  columns,
-  data
-}: DataTableProps<Comment>) {
+export function CommentTable({ columns, data }: DataTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [rowSelection, setRowSelection] = useState({});

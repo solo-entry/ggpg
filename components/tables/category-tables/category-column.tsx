@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { Checkbox } from '@/components/ui/checkbox';
 import { abbreviateString } from '@/lib/utils';
 import { CommentCellAction } from '@/components/tables/comment-tables/cell-actions';
+import { CategoryCellAction } from '@/components/tables/category-tables/cell-actions';
 
 const CategoryColumns: ColumnDef<Category>[] = [
   {
@@ -64,7 +65,7 @@ const CategoryColumns: ColumnDef<Category>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CommentCellAction data={row} />
+    cell: ({ row }) => <CategoryCellAction data={row} />
   }
 ];
 
