@@ -3,11 +3,15 @@ import { fetcher } from '@/service/fetcher';
 import FeaturedProjects from '@/app/FeaturedProjects';
 
 export default async function page() {
-  const featuredProjects = (await fetcher(
-    '',
-    {},
-    'projects/featured'
-  )) as unknown as Project[];
+  let featuredProjects: Project[] = [];
+
+  try {
+    featuredProjects = (await fetcher(
+      '',
+      {},
+      'projects/featured'
+    )) as unknown as Project[];
+  } catch (e) {}
 
   return (
     <LandingLayout>
