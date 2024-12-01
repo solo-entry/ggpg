@@ -8,10 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Category } from '@/types/category';
 import { FetchClient } from '@/service/fetch-client';
 import { toast } from '@/components/ui/use-toast';
 import { Row } from '@tanstack/table-core';
@@ -56,13 +55,6 @@ export const AccountCellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/categories/form?id=${data.original._id}`)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" /> Update
-          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
               setOpen(true);

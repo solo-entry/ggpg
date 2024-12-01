@@ -56,13 +56,6 @@ export const CommentCellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/dashboard/categories/form?id=${data.original._id}`)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" /> Update
-          </DropdownMenuItem>
-          <DropdownMenuItem
             onClick={() => {
               setOpen(true);
             }}
