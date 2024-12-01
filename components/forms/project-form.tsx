@@ -26,7 +26,8 @@ export default function ProjectForm() {
     media: [] as string[],
     tags: [] as string[],
     category: undefined,
-    author: undefined
+    author: undefined,
+    driveFileId: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ export default function ProjectForm() {
   const [author, setAuthor] = useState<Author[]>([]);
   const searchParam = useSearchParams();
   const dataId = searchParam.get('id');
+
   useEffect(() => {
     (async () => {
       try {
@@ -62,7 +64,8 @@ export default function ProjectForm() {
       category: res.category?._id,
       author: res.author?._id,
       media: res.media,
-      tags: res.tags.join(', ')
+      tags: res.tags.join(', '),
+      driveFileId: res.driveFileId ?? ''
     }));
   };
   useEffect(() => {
@@ -337,6 +340,21 @@ export default function ProjectForm() {
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      {/* File ID */}
+      <div>
+        <Label htmlFor="driveFileId">
+          Report Google Drive File ID (Optional)
+        </Label>
+        <Input
+          id="driveFileId"
+          name="driveFileId"
+          placeholder="File ID"
+          value={formData.driveFileId}
+          onChange={handleChange}
+          disabled={loading}
+        />
       </div>
 
       {/* Submit Button */}
