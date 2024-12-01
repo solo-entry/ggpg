@@ -85,7 +85,9 @@ export default function UserAuthForm() {
 
       toast({ title: 'Success', description: 'Login successful!' });
 
-      router.push('/dashboard', { scroll: false });
+      router.push(data.role === 'admin' ? '/dashboard' : '/', {
+        scroll: false
+      });
     } catch (error: any) {
       toast({
         title: 'Error',
