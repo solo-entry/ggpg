@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default async function AuthorsPage() {
-  const authors = (await fetcher(
-    '',
-    {},
-    'projects/authors'
-  )) as unknown as any[];
-  console.log('authors', authors);
+  let authors: any[] = [];
+
+  try {
+    authors = (await fetcher('', {}, 'projects/authors')) as unknown as any[];
+  } catch (e) {}
+
   return (
     <LandingLayout>
       <div className={'mx-auto w-full max-w-[1000px] p-8'}>
