@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { abbreviateString } from '@/lib/utils';
 import { CommentCellAction } from '@/components/tables/comment-tables/cell-actions';
 
-const CategoryColumns: ColumnDef<Comment>[] = [
+const CategoryColumns: ColumnDef<Category>[] = [
   {
     id: 'select',
     header: ({ table }) => (

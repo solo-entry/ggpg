@@ -16,7 +16,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Row } from '@tanstack/table-core';
 
 interface CellActionProps {
-  data: Row<Comment>;
+  data: Row<Category>;
 }
 
 export const CommentCellAction: React.FC<CellActionProps> = ({ data }) => {

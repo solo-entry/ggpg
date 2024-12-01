@@ -14,15 +14,12 @@ import {
 import DataTableBody from '@/components/tables/data-table-body';
 import { CategoryToolbar } from '@/components/tables/category-tables/category-toolbar';
 
-interface DataTableProps<Category> {
+interface DataTableProps {
   columns: ColumnDef<Category>[];
   data: Category[];
 }
 
-export function CategoryTable<Category>({
-  columns,
-  data
-}: DataTableProps<Category>) {
+export function CategoryTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
