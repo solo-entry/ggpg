@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: any) {
           />
         </div>
 
-        <div className={'mt-4 min-h-[30vh] whitespace-pre-wrap'}>
+        <div className={'mt-4 min-h-[30vh] whitespace-pre-wrap pb-[64px]'}>
           {project.description}
         </div>
 
