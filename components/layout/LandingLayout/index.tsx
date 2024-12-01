@@ -9,7 +9,12 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
   return (
     <div className={'h-full w-full overflow-y-auto bg-white text-black'}>
       <LandingHeader />
-      <div className="pt-[90px]">{children}</div>
+      <div className={'min-h-[90vh]'}>{children}</div>
+
+      <div className={'flex flex-row justify-between bg-muted p-8'}>
+        <div className={'font-black'}>GGPG</div>
+        <div className={''}>Made with Love in 2024</div>
+      </div>
     </div>
   );
 }
