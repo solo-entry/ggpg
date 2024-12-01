@@ -32,6 +32,7 @@ export default async function page({ searchParams }: paramsProps) {
     { method: 'GET' },
     'projects' + `${search ? `?search=${search}` : ''}`
   )) as unknown as Project[];
+
   return (
     <PageContainer>
       <div className="space-y-4">

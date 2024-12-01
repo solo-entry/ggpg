@@ -22,6 +22,7 @@ export default function ProjectForm() {
     title: '',
     description: '',
     media: [] as string[],
+    tags: [] as string[],
     category: undefined
   });
 
@@ -119,9 +120,29 @@ export default function ProjectForm() {
     return true;
   };
 
+  const generateTags = async () => {
+    if (!formData.title.trim() || !formData.description.trim()) {
+      return toast({
+        title: `Missing information`,
+        description: 'Please fill the title and description fields',
+        variant: 'destructive'
+      });
+    }
+    const data = await FetchClient('projects/tags', {
+      method: 'Post',
+      body: JSON.stringify({
+        title: formData.title,
+        description: formData.description
+      })
+    });
+    setFormData((prev) => ({
+      ...prev,
+      tags: data.data.join(', ')
+    }));
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(3);
     if (!validateForm()) return;
 
     setLoading(true);
@@ -181,6 +202,26 @@ export default function ProjectForm() {
           disabled={loading}
           className="w-full rounded-md border border-gray-300 p-2"
         />
+      </div>
+      <div>
+        <Label htmlFor="tags">Tags</Label>
+        <div className="flex items-center space-x-2">
+          <Input
+            id="tags"
+            name="tags"
+            placeholder="Tags for this project"
+            value={formData.tags}
+            onChange={handleChange}
+          />
+          <Button
+            type="button"
+            className={'w-52'}
+            onClick={generateTags}
+            disabled={loading}
+          >
+            Generate with A.I
+          </Button>
+        </div>
       </div>
 
       {/* Media URLs Field */}
