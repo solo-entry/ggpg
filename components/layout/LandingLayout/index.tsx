@@ -9,7 +9,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
   return (
     <div className={'h-full w-full overflow-y-auto bg-white text-black'}>
       <LandingHeader />
-      {children}
+      <div className="pt-[90px]">{children}</div>
     </div>
   );
 }

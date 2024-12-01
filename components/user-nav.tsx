@@ -14,8 +14,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
 import { useUserInfo } from '@/hooks/useLocalStorage';
+import { cn } from '@/lib/utils';
 
-export function UserNav() {
+export function UserNav({ size = 'base' }: { size?: 'lg' | 'base' }) {
   const router = useRouter();
   const userInfo = useUserInfo();
   const handleLogout = async () => {
@@ -23,7 +24,7 @@ export function UserNav() {
       const response = await fetch('/api/log-out', {
         method: 'GET'
       });
-
+      localStorage.clear();
       if (response.ok) {
         router.push('/');
       } else {
@@ -38,8 +39,14 @@ export function UserNav() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
+          <Button
+            variant="ghost"
+            className={cn(
+              'relative rounded-full',
+              size === 'base' ? ' h-8 w-8' : 'h-10 w-10'
+            )}
+          >
+            <Avatar className={cn(size === 'base' ? ' h-8 w-8' : 'h-10 w-10')}>
               <AvatarImage
                 src={userInfo?.avatar ?? ''}
                 alt={userInfo?.fullName ?? ''}

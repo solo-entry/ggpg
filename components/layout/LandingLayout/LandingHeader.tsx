@@ -1,17 +1,21 @@
 import Logo from '@/app/assets/logo.png';
 import Link from 'next/link';
-import { ArrowUpRightIcon, MenuIcon } from 'lucide-react';
+import { ArrowUpRightIcon } from 'lucide-react';
+import { UserNav } from '@/components/user-nav';
+import { cookies } from 'next/headers';
+import SheetMobile from '@/components/layout/sheet-mobile';
 
 export default function LandingHeader() {
+  const token = cookies().get('token');
   return (
     <div
       className={
-        'flex w-full flex-row items-center justify-between border-b border-neutral-200 px-8 py-6'
+        'fixed flex w-full flex-row items-center justify-between border-b border-neutral-200 bg-white px-8 py-6'
       }
     >
       <div className={'flex w-[200px] flex-row items-center'}>
         <div className={'-ml-6 cursor-pointer px-4 lg:hidden'}>
-          <MenuIcon />
+          <SheetMobile />
         </div>
         <img src={Logo.src} alt={'logo'} className={'h-[40]'} />
       </div>
@@ -21,14 +25,19 @@ export default function LandingHeader() {
         <Link href={'/authors'}>Authors</Link>
       </div>
       <div className={'flex w-[200px] justify-end'}>
-        <div
-          className={
-            'flex items-center justify-center gap-1 rounded-full bg-black px-4 py-2 text-sm text-white'
-          }
-        >
-          <ArrowUpRightIcon />
-          Explore More
-        </div>
+        {token ? (
+          <UserNav size={'lg'} />
+        ) : (
+          <Link
+            href="/auth/sign-in"
+            className={
+              'flex items-center justify-center gap-1 rounded-full bg-black px-4 py-2 text-sm text-white'
+            }
+          >
+            <ArrowUpRightIcon />
+            Explore More
+          </Link>
+        )}
       </div>
     </div>
   );

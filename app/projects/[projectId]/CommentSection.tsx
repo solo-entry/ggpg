@@ -9,6 +9,7 @@ import { toast } from '@/components/ui/use-toast';
 import gravatar from 'gravatar';
 import { useUserInfo } from '@/hooks/useLocalStorage';
 import { socketService } from '@/service/socket';
+import { Lock } from 'lucide-react';
 
 interface CommentSectionProps {
   project: Project;
@@ -53,6 +54,7 @@ export default function CommentSection({ project }: CommentSectionProps) {
         content: commentContent
       })
     }).then(() => {
+      setCommentContent('');
       toast({
         title: 'Comment posted',
         description: 'Your comment has been posted',
@@ -63,7 +65,13 @@ export default function CommentSection({ project }: CommentSectionProps) {
 
   return (
     <div className={'rounded-lg border-2 border-neutral-200'}>
-      <div className={'flex flex-row gap-2 border-b-2 p-4'}>
+      <div className={'relative flex flex-row gap-2 border-b-2 p-4'}>
+        {!user?.fullName && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black text-lg font-medium text-white opacity-30">
+            <Lock size={24} />
+            Log in to comment
+          </div>
+        )}
         <img
           className={'h-16 w-16 rounded-full'}
           src={gravatar.url(user?.email || '')}

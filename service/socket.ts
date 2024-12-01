@@ -21,8 +21,8 @@ class SocketService {
   }
 
   on(event: string, callback: (data: any) => void) {
-    this.io.on(event, callback);
-    return () => this.io.off(event, callback);
+    this.io?.on(event, callback);
+    return () => this.io?.off(event, callback);
   }
 }
 

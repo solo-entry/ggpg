@@ -1,9 +1,9 @@
 import LandingLayout from '@/components/layout/LandingLayout';
-import { MessageSquareIcon, SearchIcon, ThumbsUpIcon } from 'lucide-react';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { fetcher } from '@/service/fetcher';
-import nookies from 'nookies';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
+import SearchExplore from '@/app/explore/search-explore';
 
 function ProjectItem({ project }: { project: Project }) {
   return (
@@ -81,25 +81,7 @@ export default async function Explore({ searchParams }: any) {
             'mt-8 flex w-full flex-row items-center justify-center md:w-auto'
           }
         >
-          <div
-            className={
-              'flex flex-row items-center overflow-hidden rounded-full border border-neutral-200 px-2'
-            }
-          >
-            <input
-              className={
-                'w-full bg-white px-4 py-2 text-lg outline-none md:w-[30vw]'
-              }
-              placeholder={'Search Project'}
-            />
-            <div
-              className={
-                'flex h-8 w-8 flex-row items-center justify-center rounded-full bg-black text-white'
-              }
-            >
-              <SearchIcon className={'h-4 w-4'} />
-            </div>
-          </div>
+          <SearchExplore />
         </div>
         <div
           className={

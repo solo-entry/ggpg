@@ -16,6 +16,7 @@ export default function LikeButton({ project }: { project: Project }) {
 
   const handleLike = async () => {
     if (loading) return;
+    if (!user?.fullName) return;
     setLoading(true);
     try {
       if (liked) {
