@@ -72,9 +72,14 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         <div className={'grid grid-cols-1 gap-10 py-4 lg:grid-cols-3'}>
           <div className={'col-span-2 hidden flex-row gap-10 lg:flex'}>
             <div className={'w-[300px]'}>
-              <div className={'text-[24px] font-[600]'}>
+              <Link
+                href={`/projects/${activeProject._id}`}
+                className={
+                  'text-[24px] font-[600] transition-all duration-200 hover:text-primary'
+                }
+              >
                 {activeProject?.title}
-              </div>
+              </Link>
               <div className={'mt-2 line-clamp-2 text-[#09090B]'}>
                 {activeProject?.description}
               </div>

@@ -8,6 +8,7 @@ import gravatar from 'gravatar';
 import CommentSection from '@/app/projects/[projectId]/CommentSection';
 import { cookies } from 'next/headers';
 import LikeButton from '@/app/projects/[projectId]/like-button';
+import ProjectDocumentSection from '@/app/projects/[projectId]/ProjectDocument';
 
 export default async function ProjectPage({ params }: any) {
   const token = cookies().get('token')?.value || '';
@@ -61,7 +62,12 @@ export default async function ProjectPage({ params }: any) {
             }}
           />
         </div>
-        <div className={'mt-4 min-h-[50vh]'}>{project.description}</div>
+
+        <div className={'mt-4 min-h-[30vh] whitespace-pre-wrap'}>
+          {project.description}
+        </div>
+
+        <ProjectDocumentSection project={project} />
 
         <div className={'flex flex-col justify-between bg-neutral-100 p-8'}>
           <div className={'mx-auto mb-4'}>

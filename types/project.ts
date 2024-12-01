@@ -47,4 +47,5 @@ interface Project {
   viewCount: number;
   createdAt: string;
   liked?: boolean;
+  driveFileId?: string;
 }
