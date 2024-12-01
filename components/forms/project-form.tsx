@@ -16,8 +16,10 @@ import {
 } from '@/components/ui/select';
 import { Trash2 } from 'lucide-react';
 import { FetchClient } from '@/service/fetch-client';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 export default function ProjectForm() {
+  const [generating, setGenerating] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -160,24 +162,29 @@ export default function ProjectForm() {
   };
 
   const generateTags = async () => {
-    if (!formData.title.trim() || !formData.description.trim()) {
-      return toast({
-        title: `Missing information`,
-        description: 'Please fill the title and description fields',
-        variant: 'destructive'
+    setGenerating(true);
+    try {
+      if (!formData.title.trim() || !formData.description.trim()) {
+        return toast({
+          title: `Missing information`,
+          description: 'Please fill the title and description fields',
+          variant: 'destructive'
+        });
+      }
+      const data = await FetchClient('projects/tags', {
+        method: 'Post',
+        body: JSON.stringify({
+          title: formData.title,
+          description: formData.description
+        })
       });
+      setFormData((prev) => ({
+        ...prev,
+        tags: data.data.join(', ')
+      }));
+    } finally {
+      setGenerating(true);
     }
-    const data = await FetchClient('projects/tags', {
-      method: 'Post',
-      body: JSON.stringify({
-        title: formData.title,
-        description: formData.description
-      })
-    });
-    setFormData((prev) => ({
-      ...prev,
-      tags: data.data.join(', ')
-    }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -256,9 +263,10 @@ export default function ProjectForm() {
             type="button"
             className={'w-52'}
             onClick={generateTags}
-            disabled={loading}
+            disabled={loading || generating}
           >
-            Generate with A.I
+            {generating && <ReloadIcon className={'animate-spin mr-2'} />}
+            {generating ? 'Generating' : 'Generate with A.I'}
           </Button>
         </div>
       </div>
