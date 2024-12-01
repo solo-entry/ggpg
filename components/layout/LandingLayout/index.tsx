@@ -13,7 +13,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
 
       <div className={'flex flex-row justify-between bg-muted p-8'}>
         <div className={'font-black'}>GGPG</div>
-        <div className={''}>Made with Love in 2024</div>
+        <div className={''}>Made Bui Nhat Minh</div>
       </div>
     </div>
   );
