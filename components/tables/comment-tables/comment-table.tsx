@@ -67,11 +67,7 @@ export function CommentTable({ columns, data }: DataTableProps) {
   return (
     <div className="space-y-4 pb-6">
       <CommentToolbar value={value} setValue={setValue} table={table} />
-      <DataTableBody
-        route={'/dashboard/comments/'}
-        table={table}
-        columns={columns}
-      />
+      <DataTableBody table={table} columns={columns} />
     </div>
   );
 }

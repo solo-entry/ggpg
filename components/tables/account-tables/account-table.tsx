@@ -30,7 +30,6 @@ export function AccountTable<Category>({
     pageIndex: 0,
     pageSize: 10
   });
-
   const table = useReactTable({
     data,
     columns,
@@ -55,11 +54,7 @@ export function AccountTable<Category>({
   return (
     <div className="space-y-4 pb-6">
       <CategoryToolbar table={table} />
-      <DataTableBody
-        route={'/dashboard/categories/'}
-        table={table}
-        columns={columns}
-      />
+      <DataTableBody table={table} columns={columns} />
     </div>
   );
 }
