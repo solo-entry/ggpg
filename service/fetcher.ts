@@ -11,7 +11,8 @@ export async function fetcher(
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
       ...options,
-      headers: defaultHeaders
+      headers: defaultHeaders,
+      cache: 'no-cache'
     });
     if (!response.ok) {
       const errorData = await response.json();

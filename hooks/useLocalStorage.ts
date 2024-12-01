@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { User } from '@/types/auth';
 
@@ -5,7 +6,8 @@ export function useUserInfo(): User {
   const [userInfo, setUserInfo] = useState<null | Record<string, any>>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    if (typeof localStorage === 'undefined') return;
+    const storedUser = localStorage?.getItem('user');
     if (storedUser) {
       try {
         setUserInfo(JSON.parse(storedUser));
@@ -20,7 +22,8 @@ export function useUserInfo(): User {
 }
 
 export function useToken() {
-  const storedToken = localStorage.getItem('token');
+  if (typeof localStorage === 'undefined') return '';
+  const storedToken = localStorage?.getItem('token');
 
   return storedToken || '';
 }
