@@ -59,7 +59,8 @@ export default function ProjectForm() {
       description: res.description,
       category: res.category?._id,
       author: res.author?._id,
-      media: res.media
+      media: res.media,
+      tags: res.tags.join(', ')
     }));
   };
   useEffect(() => {
