@@ -4,6 +4,7 @@ import { fetcher } from '@/service/fetcher';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import SearchExplore from '@/app/explore/search-explore';
+import gravatar from 'gravatar';
 
 function ProjectItem({ project }: { project: Project }) {
   return (
@@ -35,7 +36,11 @@ function ProjectItem({ project }: { project: Project }) {
       </div>
       <div className={'mt-4 flex flex-row justify-between'}>
         <div className={'flex flex-row items-center gap-2'}>
-          <div className={'h-8 w-8 rounded-full bg-primary'}></div>
+          <img
+            className={'h-8 w-8 rounded-full'}
+            alt={project?.author?.fullName}
+            src={gravatar.url(project?.author?.email)}
+          />
           <div>{project.author.fullName}</div>
         </div>
         <div className={'flex flex-row gap-4'}>
