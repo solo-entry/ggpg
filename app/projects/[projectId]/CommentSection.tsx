@@ -8,6 +8,7 @@ import { FetchClient } from '@/service/fetch-client';
 import { toast } from '@/components/ui/use-toast';
 import gravatar from 'gravatar';
 import { useUserInfo } from '@/hooks/useLocalStorage';
+import { socketService } from '@/service/socket';
 
 interface CommentSectionProps {
   project: Project;
@@ -23,6 +24,26 @@ export default function CommentSection({ project }: CommentSectionProps) {
     FetchClient(`comments/${project._id}`).then((response) => {
       setComments(response);
     });
+  }, []);
+
+  useEffect(() => {
+    let remover: any = () => {};
+    const listen = () => {
+      const io = socketService.getIo();
+      io.emit('comment', project._id);
+      remover = socketService.on('newComment', (newComment) => {
+        setComments((comments) => [newComment, ...comments]);
+      });
+    };
+    if (!socketService.connected) {
+      remover = socketService.on('connect', () => {
+        listen();
+      });
+    } else listen();
+
+    return () => {
+      typeof remover === 'function' && remover();
+    };
   }, []);
 
   function postComment() {

@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
 import Providers from '@/components/providers/providers';
+import SocketConnector from '@/components/socket-connector';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <NextTopLoader showSpinner={false} />
+        <SocketConnector />
         <Providers>
           <Toaster />
           {children}
