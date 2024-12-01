@@ -139,7 +139,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               className={'aspect-[2] w-full rounded-[16px]'}
               style={{
                 backgroundImage: `url(${
-                  activeProject?.media[0] ??
+                  nextProject?.media[0] ??
                   'https://www.iqstudentaccommodation.com/sites/default/files/styles/default/public/2018-07/University%20of%20Greenwich_cred.%20University%20of%20Greenwich.jpg?itok=TOr3gLFF'
                 })`,
                 backgroundRepeat: 'no-repeat',
