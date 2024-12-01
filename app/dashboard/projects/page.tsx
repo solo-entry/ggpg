@@ -10,7 +10,7 @@ import { ProjectTable } from '@/components/tables/project-tables/project-table';
 import ProjectColumns from '@/components/tables/project-tables/project-column';
 import dayjs from 'dayjs';
 import { fetcher } from '@/service/fetcher';
-import nookies from 'nookies';
+import { cookies } from 'next/headers';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -25,8 +25,7 @@ type paramsProps = {
 
 export default async function page({ searchParams }: paramsProps) {
   const search = searchParams?.search || '';
-  const cookies = nookies.get();
-  const token = cookies.token || '';
+  const token = cookies().get('token')?.value || '';
   const data = (await fetcher(
     token,
     { method: 'GET' },

@@ -19,11 +19,13 @@ import { useDebounce } from '@/hooks/use-debounce';
 interface DataTableProps<Project> {
   columns: ColumnDef<Project>[];
   data: Project[];
+  withToolbar?: boolean;
 }
 
 export function ProjectTable<Project>({
   columns,
-  data
+  data,
+  withToolbar = true
 }: DataTableProps<Project>) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -70,7 +72,9 @@ export function ProjectTable<Project>({
   }, [debouncedValue, router, searchParams]);
   return (
     <div className="space-y-4 pb-6">
-      <ProjectToolbar table={table} value={value} setValue={setValue} />
+      {withToolbar && (
+        <ProjectToolbar table={table} value={value} setValue={setValue} />
+      )}
       <DataTableBody
         route={'/dashboard/projects/'}
         table={table}

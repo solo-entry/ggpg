@@ -6,30 +6,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ProjectCellAction } from '@/components/tables/project-tables/cell-actions';
 import { abbreviateString } from '@/lib/utils';
 import TagList from '@/components/tags-list';
+import { FetchClient } from '@/service/fetch-client';
+import { toast } from '@/components/ui/use-toast';
 
 const ProjectColumns: ColumnDef<Project>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false
-  },
   {
     accessorKey: '_id',
     header: ({ column }) => (
@@ -57,13 +37,53 @@ const ProjectColumns: ColumnDef<Project>[] = [
   {
     accessorKey: 'tags',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category & tags" />
+      <DataTableColumnHeader column={column} title="Tags" />
     ),
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-2">
-        <TagList tags={row.original.tags} /> {row.original?.category?.name}
+        <TagList tags={row.original.tags} />
       </div>
     )
+  },
+  {
+    accessorKey: 'isFeatured',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Is Feature" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div onClick={(e) => e.stopPropagation()}>
+          <Checkbox
+            checked={row.original.isFeatured}
+            onCheckedChange={(value) => {
+              (async () => {
+                if (!!value) {
+                  await FetchClient(
+                    `admin/projects/feature/${row.original._id}`,
+                    {
+                      method: 'PUT'
+                    }
+                  );
+                } else {
+                  await FetchClient(
+                    `admin/projects/unfeature/${row.original._id}`,
+                    {
+                      method: 'PUT'
+                    }
+                  );
+                }
+                toast({
+                  title: 'Update successfully!',
+                  description: '',
+                  variant: 'success'
+                });
+              })();
+            }}
+            aria-label="Select all"
+          />
+        </div>
+      );
+    }
   },
   {
     accessorKey: 'createdAt',
@@ -73,13 +93,6 @@ const ProjectColumns: ColumnDef<Project>[] = [
     cell: ({ row }) => (
       <div>{dayjs(row.getValue('createdAt')).format('DD/MM/YYYY HH:mm')}</div>
     )
-  },
-  {
-    accessorKey: 'visibility',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Visibility" />
-    ),
-    cell: ({ row }) => <div>{row.getValue('visibility')}</div>
   },
   {
     id: 'actions',

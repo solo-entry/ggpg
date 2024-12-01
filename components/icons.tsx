@@ -10,6 +10,7 @@ import {
   Laptop,
   LayoutDashboardIcon,
   Loader2,
+  LockIcon,
   LogIn,
   MonitorSpeaker,
   Moon,
@@ -51,5 +52,6 @@ export const Icons = {
   target: Target,
   comment: ChatBubbleIcon,
   check: Check,
-  category: BookMarked
+  category: BookMarked,
+  lock: LockIcon
 };

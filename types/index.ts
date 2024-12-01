@@ -8,4 +8,5 @@ export interface NavItem {
   icon?: keyof typeof Icons;
   label?: string;
   description?: string;
+  role?: string;
 }

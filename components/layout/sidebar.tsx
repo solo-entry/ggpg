@@ -1,13 +1,14 @@
 'use client';
 import React from 'react';
 import { DashboardNav } from '@/components/dashboard-nav';
-import { navItems } from '@/constants/data';
+import { filterNavItemsByRole, navItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
 import { useSidebar } from '@/hooks/useSidebar';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/app/assets/logo.png';
+import { useUserInfo } from '@/hooks/useLocalStorage';
 
 type SidebarProps = {
   className?: string;
@@ -19,7 +20,8 @@ export default function Sidebar({ className }: SidebarProps) {
   const handleToggle = () => {
     toggle();
   };
-
+  const user = useUserInfo();
+  const filteredNavItems = filterNavItemsByRole(navItems, user?.role);
   return (
     <aside
       className={cn(
@@ -47,7 +49,7 @@ export default function Sidebar({ className }: SidebarProps) {
       <div className="space-y-4 py-2">
         <div className="px-3 py-2">
           <div className="mt-3 space-y-1">
-            <DashboardNav items={navItems} />
+            <DashboardNav items={filteredNavItems} />
           </div>
         </div>
       </div>
