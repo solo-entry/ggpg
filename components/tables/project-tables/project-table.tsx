@@ -27,7 +27,6 @@ export function ProjectTable<Project>({
   data,
   withToolbar = true
 }: DataTableProps<Project>) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -38,6 +37,7 @@ export function ProjectTable<Project>({
   });
   const [value, setValue] = useState('');
   const debouncedValue = useDebounce(value, 300);
+  const router = useRouter();
 
   const table = useReactTable({
     data,
@@ -70,13 +70,16 @@ export function ProjectTable<Project>({
     }
     router.replace(`?${currentParams.toString()}`);
   }, [debouncedValue, router, searchParams]);
+
   return (
     <div className="space-y-4 pb-6">
       {withToolbar && (
         <ProjectToolbar table={table} value={value} setValue={setValue} />
       )}
       <DataTableBody
-        route={'/dashboard/projects/'}
+        actionPerRow={(projectId) => {
+          router.push(`/dashboard/projects/form?id=${projectId}`);
+        }}
         table={table}
         columns={columns}
       />

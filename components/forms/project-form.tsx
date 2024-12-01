@@ -183,7 +183,7 @@ export default function ProjectForm() {
         tags: data.data.join(', ')
       }));
     } finally {
-      setGenerating(true);
+      setGenerating(false);
     }
   };
 
@@ -265,7 +265,7 @@ export default function ProjectForm() {
             onClick={generateTags}
             disabled={loading || generating}
           >
-            {generating && <ReloadIcon className={'animate-spin mr-2'} />}
+            {generating && <ReloadIcon className={'mr-2 animate-spin'} />}
             {generating ? 'Generating' : 'Generate with A.I'}
           </Button>
         </div>
