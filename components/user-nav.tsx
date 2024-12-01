@@ -25,8 +25,10 @@ export function UserNav({ size = 'base' }: { size?: 'lg' | 'base' }) {
         method: 'GET'
       });
       localStorage.clear();
+      console.log(response);
       if (response.ok) {
         router.push('/');
+        window.location.reload();
       } else {
         console.error('Failed to log out');
       }

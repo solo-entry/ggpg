@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
 
   // If no token or role is found, redirect to login
   if (!token || !role) {
-    const loginUrl = new URL('/login', req.url);
+    const loginUrl = new URL('/auth/sign-in', req.url);
     return NextResponse.redirect(loginUrl);
   }
 
