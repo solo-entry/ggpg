@@ -22,15 +22,22 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     setActiveIndex(activeIndex > 0 ? activeIndex - 1 : projects.length - 1);
   }
 
+  if (!activeProject)
+    return (
+      <div>
+        Please create projects and mark at least one project as featured first.
+      </div>
+    );
+
   return (
     <>
       <div className={'p-4 lg:px-10 lg:py-8'}>
         <div className={'flex flex-row gap-2 lg:justify-center lg:px-4'}>
           <div className={'rounded-full border border-neutral-200 px-4 py-1'}>
-            Project - {dayjs(activeProject.createdAt).format('YYYY')}
+            Project - {dayjs(activeProject?.createdAt).format('YYYY')}
           </div>
           <div className={'rounded-full border border-neutral-200 px-4 py-1'}>
-            {activeProject.category?.name ?? 'Uncategorized'}
+            {activeProject?.category?.name ?? 'Uncategorized'}
           </div>
         </div>
         <div className={'grid grid-cols-1 gap-8 py-4 lg:grid-cols-3'}>
@@ -40,7 +47,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             </div>
           </div>
           <div className={'col-span-1 lg:px-4'}>
-            <div className={'line-clamp-4'}>{activeProject.description}</div>
+            <div className={'line-clamp-4'}>{activeProject?.description}</div>
             <div className={'flex flex-row items-start gap-2 py-4'}>
               <Link
                 className={
@@ -66,10 +73,10 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           <div className={'col-span-2 hidden flex-row gap-10 lg:flex'}>
             <div className={'w-[300px]'}>
               <div className={'text-[24px] font-[600]'}>
-                {activeProject.title}
+                {activeProject?.title}
               </div>
               <div className={'mt-2 line-clamp-2 text-[#09090B]'}>
-                {activeProject.description}
+                {activeProject?.description}
               </div>
               <div
                 className={
@@ -98,19 +105,19 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
                   alt={'avatar'}
                 />
                 <div className={'ml-2 text-muted-foreground'}>
-                  {activeProject.likes.length + activeProject.comments.length}{' '}
+                  {activeProject?.likes.length + activeProject?.comments.length}{' '}
                   engagements
                 </div>
               </div>
               <div className={'mt-8 flex flex-row items-start gap-2'}>
                 <div className="rounded-full border border-neutral-200 px-3 py-1 text-sm font-bold">
-                  {dayjs(activeProject.createdAt).format('YYYY')}
+                  {dayjs(activeProject?.createdAt).format('YYYY')}
                 </div>
                 <div className="rounded-full border border-neutral-200 px-3 py-1 text-sm font-bold">
-                  {activeProject.category?.name ?? 'Uncategorized'}
+                  {activeProject?.category?.name ?? 'Uncategorized'}
                 </div>
                 <div className="line-clamp-1 rounded-full border border-neutral-200 px-3 py-1 text-sm font-bold capitalize">
-                  {activeProject.tags[0]}
+                  {activeProject?.tags[0]}
                 </div>
               </div>
             </div>
@@ -118,7 +125,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               className={'aspect-video flex-1 rounded-[16px]'}
               style={{
                 backgroundImage: `url(${
-                  activeProject.media[0] ??
+                  activeProject?.media[0] ??
                   'https://www.iqstudentaccommodation.com/sites/default/files/styles/default/public/2018-07/University%20of%20Greenwich_cred.%20University%20of%20Greenwich.jpg?itok=TOr3gLFF'
                 })`,
                 backgroundRepeat: 'no-repeat',
@@ -132,7 +139,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               className={'aspect-[2] w-full rounded-[16px]'}
               style={{
                 backgroundImage: `url(${
-                  activeProject.media[0] ??
+                  activeProject?.media[0] ??
                   'https://www.iqstudentaccommodation.com/sites/default/files/styles/default/public/2018-07/University%20of%20Greenwich_cred.%20University%20of%20Greenwich.jpg?itok=TOr3gLFF'
                 })`,
                 backgroundRepeat: 'no-repeat',
