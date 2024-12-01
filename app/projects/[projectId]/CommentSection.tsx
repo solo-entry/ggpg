@@ -31,18 +31,18 @@ export default function CommentSection({ project }: CommentSectionProps) {
     const listen = () => {
       const io = socketService.getIo();
       io.emit('comment', project._id);
-      remover = io.on('newComment', (newComment) => {
+      remover = socketService.on('newComment', (newComment) => {
         setComments((comments) => [newComment, ...comments]);
       });
     };
     if (!socketService.connected) {
-      socketService.on('connect', () => {
+      remover = socketService.on('connect', () => {
         listen();
       });
     } else listen();
 
     return () => {
-      remover();
+      typeof remover === 'function' && remover();
     };
   }, []);
 
