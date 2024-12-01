@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThumbsUpIcon } from 'lucide-react';
 import { FetchClient } from '@/service/fetch-client';
 import { useRouter } from 'next/navigation';
@@ -31,6 +31,10 @@ export default function LikeButton({ project }: { project: Project }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setLiked(project?.likes.includes(user?._id) || false);
+  }, [project?.likes, user?._id]);
 
   return (
     <div
