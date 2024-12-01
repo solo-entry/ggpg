@@ -23,21 +23,32 @@ export default function ProjectForm() {
     description: '',
     media: [] as string[],
     tags: [] as string[],
-    category: undefined
+    category: undefined,
+    author: undefined
   });
 
   const [loading, setLoading] = useState(false);
   const [mediaInput, setMediaInput] = useState('');
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [author, setAuthor] = useState<Author[]>([]);
   const searchParam = useSearchParams();
   const dataId = searchParam.get('id');
   useEffect(() => {
     (async () => {
-      const data = await FetchClient('admin/categories', { method: 'GET' });
-      setCategories(data);
+      try {
+        const [categoriesData, authorsData] = await Promise.all([
+          FetchClient('admin/categories', { method: 'GET' }),
+          FetchClient('admin/users', { method: 'GET' })
+        ]);
+        setCategories(categoriesData);
+        setAuthor(authorsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     })();
   }, []);
+
   const fetchData = async () => {
     const res = await FetchClient(`projects/${dataId}`, {
       method: 'GET'
@@ -46,7 +57,8 @@ export default function ProjectForm() {
       ...prev,
       title: res.title,
       description: res.description,
-      category: res.category._id,
+      category: res.category?._id,
+      author: res.author?._id,
       media: res.media
     }));
   };
@@ -70,6 +82,14 @@ export default function ProjectForm() {
       setFormData((prev) => ({
         ...prev,
         category: value
+      }));
+    }
+  };
+  const handleAuthorChange = (value: any) => {
+    if (value) {
+      setFormData((prev) => ({
+        ...prev,
+        author: value
       }));
     }
   };
@@ -98,11 +118,29 @@ export default function ProjectForm() {
   };
 
   const validateForm = () => {
-    const { title, description } = formData;
+    const { title, description, category } = formData;
     if (!title) {
       toast({
         title: 'Error',
         description: 'Title is required.',
+        variant: 'destructive'
+      });
+      return false;
+    }
+
+    if (!category) {
+      toast({
+        title: 'Error',
+        description: 'Category is required.',
+        variant: 'destructive'
+      });
+      return false;
+    }
+
+    if (!author) {
+      toast({
+        title: 'Error',
+        description: 'Author is required.',
         variant: 'destructive'
       });
       return false;
@@ -176,7 +214,7 @@ export default function ProjectForm() {
     }
   };
   return (
-    <form onSubmit={handleSubmit} className="w-full space-y-4 lg:max-w-[500px]">
+    <form onSubmit={handleSubmit} className="w-full space-y-2 lg:max-w-[500px]">
       {/* Title Field */}
       <div>
         <Label htmlFor="title">Title</Label>
@@ -257,6 +295,22 @@ export default function ProjectForm() {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div>
+        <Label htmlFor="author">Author</Label>
+        <Select onValueChange={handleAuthorChange} value={formData.author}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select an author" />
+          </SelectTrigger>
+          <SelectContent>
+            {author.map((item) => (
+              <SelectItem value={item._id} key={item._id}>
+                {item.fullName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Category Field */}

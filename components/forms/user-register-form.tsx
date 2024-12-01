@@ -9,7 +9,11 @@ import { useRouter } from 'next/navigation';
 import { InputPassword } from '@/components/ui/input-password';
 import { FetchClient } from '@/service/fetch-client';
 
-export default function UserRegisterForm() {
+export default function UserRegisterForm({
+  isAdmin = false
+}: {
+  isAdmin?: boolean;
+}) {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -78,7 +82,7 @@ export default function UserRegisterForm() {
         description: 'You can now sign in.',
         variant: 'success'
       });
-      router.push('/auth/sign-in');
+      router.push(isAdmin ? '/dashboard/accounts/' : '/auth/sign-in');
     } catch (error: any) {
       toast({
         title: 'Registration failed',
@@ -138,11 +142,13 @@ export default function UserRegisterForm() {
         />
       </div>
 
-      <div className="flex flex-row justify-end">
-        <Link href="/auth/sign-in" className="text-sm italic underline">
-          Already have an account?
-        </Link>
-      </div>
+      {!isAdmin && (
+        <div className="flex flex-row justify-end">
+          <Link href="/auth/sign-in" className="text-sm italic underline">
+            Already have an account?
+          </Link>
+        </div>
+      )}
 
       <Button disabled={loading} className="ml-auto w-full" type="submit">
         Register

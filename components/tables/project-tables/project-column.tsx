@@ -61,7 +61,7 @@ const ProjectColumns: ColumnDef<Project>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-2">
-        <TagList tags={row.original.tags} /> {row.original.category.name}
+        <TagList tags={row.original.tags} /> {row.original?.category?.name}
       </div>
     )
   },

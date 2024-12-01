@@ -7,10 +7,14 @@ import dayjs from 'dayjs';
 import { fetcher } from '@/service/fetcher';
 import AccountColumns from '@/components/tables/account-tables/account-column';
 import { AccountTable } from '@/components/tables/account-tables/account-table';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Comments', link: '/dashboard/comments' }
+  { title: 'Accounts', link: '/dashboard/accounts' }
 ];
 
 type paramsProps = {
@@ -35,6 +39,12 @@ export default async function page({ searchParams }: paramsProps) {
             title={`Account management (${data.length})`}
             description={'Data updated at ' + dayjs().format('DD/MM/YYYY')}
           />
+          <Link
+            href={'/dashboard/accounts/form'}
+            className={cn(buttonVariants({ variant: 'default' }))}
+          >
+            <Plus className="mr-2 h-4 w-4" /> Add New
+          </Link>
         </div>
         <Separator />
         <AccountTable data={data} columns={AccountColumns} />

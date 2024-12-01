@@ -6,6 +6,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
@@ -23,7 +30,9 @@ export const ProjectCellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const [action, setAction] = useState(
+    data.original?.isFeatured ? 'feature' : 'unfeature'
+  );
   const onConfirm = async () => {
     await FetchClient(`projects/${data.original._id}`, {
       method: 'DELETE'
@@ -35,6 +44,25 @@ export const ProjectCellAction: React.FC<CellActionProps> = ({ data }) => {
     });
     router.refresh();
     setOpen(false);
+  };
+  const updateFeature = (feature: string) => {
+    (async () => {
+      if (feature === 'feature') {
+        await FetchClient(`admin/projects/feature/${data.original._id}`, {
+          method: 'PUT'
+        });
+      }
+      if (feature === 'unfeature') {
+        await FetchClient(`admin/projects/unfeature/${data.original._id}`, {
+          method: 'PUT'
+        });
+      }
+      toast({
+        title: 'Update successfully!',
+        description: '',
+        variant: 'success'
+      });
+    })();
   };
   return (
     <div onClick={(e) => e.stopPropagation()}>
@@ -58,11 +86,34 @@ export const ProjectCellAction: React.FC<CellActionProps> = ({ data }) => {
               router.push(`/dashboard/projects/form?id=${data.original._id}`)
             }
           >
-            <Edit className="mr-2 h-4 w-4" /> Update
+            <Edit className="mr-2 h-4 w-4" />
+            Update
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Actions</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup
+                  value={action}
+                  onValueChange={(value) => {
+                    updateFeature(value);
+                    setAction(value);
+                  }}
+                >
+                  <DropdownMenuRadioItem value="feature">
+                    Feature
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="unfeature">
+                    Unfeature
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
