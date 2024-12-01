@@ -1,10 +1,11 @@
 'use client';
 import Logo from '@/app/assets/logo.png';
 import Link from 'next/link';
-import { ArrowUpRightIcon, MenuIcon } from 'lucide-react';
+import { ArrowUpRightIcon } from 'lucide-react';
 import { useUserInfo } from '@/hooks/useLocalStorage';
 import { DashboardIcon } from '@radix-ui/react-icons';
 import { UserNav } from '@/components/user-nav';
+import SheetMobile from '@/components/layout/sheet-mobile';
 
 export default function LandingHeader() {
   const userInfo = useUserInfo();
@@ -16,7 +17,7 @@ export default function LandingHeader() {
     >
       <div className={'flex w-[200px] flex-row items-center'}>
         <div className={'-ml-6 cursor-pointer px-4 lg:hidden'}>
-          <MenuIcon />
+          <SheetMobile />
         </div>
         <img src={Logo.src} alt={'logo'} className={'h-[40]'} />
       </div>
